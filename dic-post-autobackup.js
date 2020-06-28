@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         海豚新帖自动备份
+// @name         dic-post-autobackup
 // @namespace    https://dicmusic.club
 // @version      0.0.1
 // @description  海豚新帖自动备份
