@@ -2,7 +2,7 @@
 // @name           Jenkins Build Parameters Importer
 // @name:zh        Jenkins 构建参数导入助手
 // @namespace      https://github.com/soleil0-0/userscripts
-// @version        1.0.0
+// @version        1.0.1
 // @description    copy build parameters from another jenkins
 // @description:zh 从指定链接复制构建参数
 // @author         soleil
@@ -11,12 +11,6 @@
 // ==/UserScript==
 
 "use strict";
-
-function decodeEntities(encodedString) {
-    let textArea = document.createElement('textarea');
-    textArea.innerHTML = encodedString;
-    return textArea.value;
-}
 
 function applyJson(data) {
     [...document.querySelectorAll("input[type=hidden][name=name]")].forEach(function(e) {
@@ -68,25 +62,18 @@ function rewriteUrl(url) {
     return url.replace(/(.*)$/, "$1/api/json?tree=actions[parameters[name,value]]");
 }
 
-let importRow = document.createElement("tr");
-
-let textColumn = document.createElement("td");
-let text = document.createTextNode("Import（其他 BUILD_URL）:")
-textColumn.append(text);
-textColumn.classList.add("label");
-importRow.append(textColumn);
+let importRow = document.createElement("div");
 
 let input = document.createElement("input");
-let inputColumn = document.createElement("td");
 let importButton = document.createElement("input");
 input.setAttribute("id", "import_input");
 input.setAttribute("type", "text");
 input.setAttribute("size", "40");
+input.setAttribute("placeholder", "BUILD_URL");
 importButton.setAttribute("type", "button");
-importButton.setAttribute("value", "Import（导入）!");
-inputColumn.append(input);
-importRow.append(inputColumn);
-inputColumn.append(importButton);
+importButton.setAttribute("value", "Import!");
+importRow.append(input);
+importRow.append(importButton);
 
 let breadcrumbRow = document.querySelector("#breadcrumbs");
 breadcrumbRow.parentNode.insertBefore(importRow, breadcrumbRow.nextSibling);
