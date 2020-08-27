@@ -7,7 +7,8 @@
 // @description:zh 从指定链接复制构建参数
 // @author         soleil
 // @grant          GM_xmlhttpRequest
-// @include        http*://*/jenkins/job/*/build*
+// @include        http*://*/jenkins/job/*/build
+// @include        http*://*/jenkins/job/*/build?*
 // ==/UserScript==
 
 "use strict";
