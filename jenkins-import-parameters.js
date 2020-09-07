@@ -2,7 +2,7 @@
 // @name           Jenkins Build Parameters Importer
 // @name:zh        Jenkins 构建参数导入助手
 // @namespace      https://github.com/soleil0-0/userscripts
-// @version        1.0.1
+// @version        1.0.2
 // @description    copy build parameters from another jenkins
 // @description:zh 从指定链接复制构建参数
 // @author         soleil
@@ -13,20 +13,29 @@
 
 "use strict";
 
+function setValue(e, v) {
+    let n = e.nextSibling;
+    if (n.name != "value") n = n.nextSibling;
+    if (n.name != "value") return;
+
+    if (n instanceof HTMLInputElement || n instanceof HTMLTextAreaElement) {
+        console.log("set " + e.value + " to " + v);
+        if (n.type == "checkbox")
+            n.checked = v;
+        else
+            n.value = v;
+    }
+}
+
 function applyJson(data) {
     [...document.querySelectorAll("input[type=hidden][name=name]")].forEach(function(e) {
-        if (!(e.value in data)) return;
-        let n = e.nextSibling;
-        if (n.name != "value") n = n.nextSibling;
-        if (n.name != "value") return;
-
-        if (n instanceof HTMLInputElement || n instanceof HTMLTextAreaElement) {
-            console.log("set " + e.value + " to " + data[e.value]);
-            if (n.type == "checkbox")
-                n.checked = data[e.value];
-            else
-                n.value = data[e.value];
+        if (!(e.value in data)) {
+            if (e.value == "original_url") {
+                setValue(e, input.value);
+            }
+            return;
         }
+        setValue(e, data[e.value]);
     });
 }
 
